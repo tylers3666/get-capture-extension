@@ -1,0 +1,17 @@
+{
+  "name": "Login Form GET Request Capturer",
+  "version": "1.0",
+  "manifest_version": 3,
+  "description": "Captures and displays GET request URLs upon entering login forms.",
+  "permissions": [
+    "webRequest",
+    "activeTab",
+    "scripting"
+  ],
+  "host_permissions": [
+    "<all_urls>"
+  ],
+  "background": {
+    "service_worker": "background.js"
+  }
+}
