@@ -1,6 +1,25 @@
+let extensionEnabled = true; // Default to enabled
+
+// Load the initial state from storage
+chrome.storage.sync.get('extensionEnabled', (data) => {
+  if (typeof data.extensionEnabled !== 'undefined') {
+    extensionEnabled = data.extensionEnabled;
+  }
+});
+
+// Listen for messages from the popup script
+chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
+  if (request.action === 'updateExtensionStatus') {
+    extensionEnabled = request.enabled;
+  }
+});
+
 // Listen for web requests before they are sent
 chrome.webRequest.onBeforeRequest.addListener(
   function (details) {
+    if (!extensionEnabled) {
+      return; // If extension is disabled, do nothing
+    }
     // Check if the request is a GET request and its URL contains "login"
     if (details.method === "GET" && details.url.includes("login")) {
       // Format the captured request details
